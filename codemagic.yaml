@@ -1,1 +1,31 @@
-(الصيغة الآمنة)
+workflows:
+  flutter-workflow:
+    name: "Flutter Build Workflow"
+    max_build_duration: 60
+    environment:
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Install dependencies
+        script: |
+          flutter pub get
+      - name: Run analyzer
+        script: |
+          flutter analyze
+      - name: Run tests
+        script: |
+          flutter test
+      - name: Build APK
+        script: |
+          flutter build apk --release
+      - name: Build iOS (optional)
+        script: |
+          flutter build ios --release --no-codesign
+    artifacts:
+      - build/app/outputs/flutter-apk/app-release.apk
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - your_email@example.com
